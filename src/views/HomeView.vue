@@ -7,13 +7,21 @@
   </header>
   <main class="">
     <div class="container">
+      <tagNewTodo></tagNewTodo>
+
       <div class="data-area">
-        <p v-if="filter === 'favorites'">
-          Toplam {{ myDailyTodos.favoriteCount }} kayit var
-        </p>
-        <p v-if="filter === 'all'">
-          Toplam {{ myDailyTodos.totalCount }} kayit var
-        </p>
+        <h4 v-if="filter === 'favorites'" class="count-box">
+          Toplam
+          <p class="counts">
+            {{ myAllTodos.favoriteCount }}
+          </p>
+          kayit var
+        </h4>
+        <h4 v-if="filter === 'all'" class="count-box">
+          Toplam
+          <p class="counts">{{ myAllTodos.totalCount }}</p>
+          kayit var
+        </h4>
 
         <div>
           <button @click="filter = 'all'">Her Günler</button>
@@ -24,7 +32,7 @@
       <p v-if="filter === 'all'">Bütün günlük gordüyüm ishler</p>
       <div
         class="gunluk-listesi"
-        v-for="myTodo in myDailyTodos.daily"
+        v-for="myTodo in myAllTodos.daily"
         v-if="filter === 'all'"
       >
         <tagTodoDetails :todo="myTodo"></tagTodoDetails>
@@ -33,7 +41,7 @@
       <p v-if="filter === 'favorites'">Beyenerek gördüyüm ishler</p>
       <div
         class="gunluk-listesi"
-        v-for="myTodo in myDailyTodos.favorites"
+        v-for="myTodo in myAllTodos.favorites"
         v-if="filter === 'favorites'"
       >
         <tagTodoDetails :todo="myTodo"></tagTodoDetails>
@@ -45,18 +53,20 @@
 <script>
 import { useDailyStore } from '@/stores/counter.js';
 import todoDetails from '@/components/todoDetails.vue';
+import NewTodo from '@/components/newTodo.vue';
 import { ref } from 'vue';
 
 export default {
   components: {
     tagTodoDetails: todoDetails,
+    tagNewTodo: NewTodo,
   },
   setup() {
-    const myDailyTodos = useDailyStore();
+    const myAllTodos = useDailyStore();
 
     const filter = ref('all');
 
-    return { myDailyTodos, filter };
+    return { myAllTodos, filter };
   },
 };
 </script>

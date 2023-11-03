@@ -26,4 +26,19 @@ export const useDailyStore = defineStore('dailyStore', {
       return state.daily.length;
     },
   },
+
+  actions: {
+    addNewTodo(newTodo) {
+      this.daily.push(newTodo);
+    },
+    toggleFavorites(id) {
+      const foundedTodo = this.daily.find((todo) => todo.id === id);
+      foundedTodo.isFavorite = !foundedTodo.isFavorite;
+    },
+    deleteTodoById(id) {
+      this.daily = this.daily.filter((todo) => {
+        return todo.id !== id;
+      });
+    },
+  },
 });
