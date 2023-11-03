@@ -5,7 +5,10 @@
       <small class="date">{{ todo.date }}</small>
     </div>
     <div>
-      <i class="material-icons" @click="allTodos.toggleFavorites(todo.id)"
+      <i
+        class="material-icons"
+        :class="{ active: todo.isFavorite }"
+        @click="allTodos.toggleFavorites(todo.id)"
         >favorite</i
       >
       <i class="material-icons" @click="allTodos.deleteTodoById(todo.id)"
