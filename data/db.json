@@ -1,0 +1,34 @@
+{
+  "diary": [
+    {
+      "id": 1,
+      "diary": "todo 1",
+      "date": "11.5.2023",
+      "isFavorite": true
+    },
+    {
+      "id": 2,
+      "diary": "todo 2",
+      "date": "11.6.2023",
+      "isFavorite": true
+    },
+    {
+      "id": 3,
+      "diary": "todo 3",
+      "date": "11.7.2023",
+      "isFavorite": false
+    },
+    {
+      "id": 4,
+      "diary": "todo 4",
+      "date": "11.8.2023",
+      "isFavorite": false
+    },
+    {
+      "id": 5,
+      "diary": "my next todo",
+      "date": "4.11.2023",
+      "isFavorite": true
+    }
+  ]
+}

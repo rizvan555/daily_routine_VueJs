@@ -35,7 +35,7 @@ export default {
     const sendForm = () => {
       if (valueNewTodo.value !== '') {
         myAllTodos.addNewTodo({
-          id: myAllTodos.daily.length,
+          id: myAllTodos.daily.length + 1,
           diary: valueNewTodo.value,
           date: currentDate(),
           isFavorite: false,

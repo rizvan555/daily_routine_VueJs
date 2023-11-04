@@ -2,15 +2,8 @@ import { defineStore } from 'pinia';
 
 export const useDailyStore = defineStore('dailyStore', {
   state: () => ({
-    daily: [
-      { id: 1, diary: 'Code writing', date: '2023-11-03', isFavorite: true },
-      {
-        id: 2,
-        diary: 'PS playing',
-        date: '2023-11-05',
-        isFavorite: false,
-      },
-    ],
+    daily: [],
+    loading: false,
   }),
 
   getters: {
@@ -18,8 +11,8 @@ export const useDailyStore = defineStore('dailyStore', {
       return this.daily.filter((day) => day.isFavorite);
     },
     favoriteCount() {
-      return this.daily.reduce((previous, current) => {
-        return current.isFavorite ? previous + 1 : previous;
+      return this.daily.reduce((prev, current) => {
+        return current.isFavorite ? prev + 1 : prev;
       }, 0);
     },
     totalCount: (state) => {
@@ -28,17 +21,57 @@ export const useDailyStore = defineStore('dailyStore', {
   },
 
   actions: {
-    addNewTodo(newTodo) {
-      this.daily.push(newTodo);
+    async getTodos() {
+      this.loading = true;
+      const response = await fetch('http://localhost:3000/diary');
+      const data = await response.json();
+      this.daily = data;
+      this.loading = false;
     },
-    toggleFavorites(id) {
+    async addNewTodo(newTodo) {
+      this.daily.push(newTodo);
+      try {
+        const response = await fetch('http://localhost:3000/diary', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newTodo),
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async toggleFavorites(id) {
       const foundedTodo = this.daily.find((todo) => todo.id === id);
       foundedTodo.isFavorite = !foundedTodo.isFavorite;
+
+      try {
+        const response = await fetch(`http://localhost:3000/diary/${id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(foundedTodo),
+        });
+      } catch (error) {
+        console.log(error);
+      }
     },
-    deleteTodoById(id) {
+
+    async deleteTodoById(id) {
       this.daily = this.daily.filter((todo) => {
         return todo.id !== id;
       });
+
+      try {
+        const response = await fetch(`http://localhost:3000/diary/${id}`, {
+          method: 'DELETE',
+        });
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 });

@@ -1,8 +1,7 @@
 <template>
   <header>
     <div class="container">
-      <h1>LOGO</h1>
-      <h3>Daily routine</h3>
+      <h1>Todo List</h1>
     </div>
   </header>
   <main class="">
@@ -65,6 +64,7 @@ export default {
     const myAllTodos = useDailyStore();
 
     const filter = ref('all');
+    myAllTodos.getTodos();
 
     return { myAllTodos, filter };
   },
